@@ -104,7 +104,7 @@ SAML_CONFIG = {
     'xmlsec_binary': '/usr/bin/xmlsec1',
     'entityid': '%smetadata/' % SAML2_URL_BASE,
     # directory with attribute mapping
-    #'attribute_map_dir': path.join(BASEDIR, 'attribute-maps'),
+    #'attribute_map_dir': os.path.join(BASEDIR, 'attribute-maps'),
     'name': 'SMS Portal',
     # this block states what services we provide
     'service': {
@@ -138,12 +138,12 @@ SAML_CONFIG = {
                          },
                   },
     # where the remote metadata is stored
-    'metadata': {'local': [path.join(BASEDIR, 'meta/remote-metadata.xml')], },
+    'metadata': {'local': [os.path.join(BASEDIR, 'meta/remote-metadata.xml')], },
     # set to 1 to output debugging information
     'debug': 1,
     # certificate
-    'key_file': path.join(BASEDIR, 'saml/key'),
-    'cert_file': path.join(BASEDIR, 'saml/cert'),
+    'key_file': os.path.join(BASEDIR, 'saml/key'),
+    'cert_file': os.path.join(BASEDIR, 'saml/cert'),
 }
 
 SAML_CREATE_UNKNOWN_USER = True
