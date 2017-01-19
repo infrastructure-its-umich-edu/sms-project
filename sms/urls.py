@@ -20,6 +20,5 @@ urlpatterns = [
     url(r'^sms/', include('sendsms.urls', namespace="sendsms")),
     url(r'^bootstrap3/', include('demo.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/login/$', include('djangosaml2.urls')),
-    url(r'^accounts/logout/$', logout),
+    url(r'^accounts/', include('djangosaml2.urls')),
 ]
