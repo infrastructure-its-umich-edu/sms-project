@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import saml2
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SAML2_URL_PATH = '/accounts/'
 SAML2_URL_BASE = 'http://localhost:2082/accounts/'
@@ -104,7 +104,7 @@ SAML_CONFIG = {
     'xmlsec_binary': '/usr/bin/xmlsec1',
     'entityid': '%smetadata/' % SAML2_URL_BASE,
     # directory with attribute mapping
-    #'attribute_map_dir': os.path.join(BASEDIR, 'attribute-maps'),
+    #'attribute_map_dir': os.path.join(BASE_DIR, 'attribute-maps'),
     'name': 'SMS Portal',
     # this block states what services we provide
     'service': {
@@ -138,12 +138,12 @@ SAML_CONFIG = {
                          },
                   },
     # where the remote metadata is stored
-    'metadata': {'local': [os.path.join(BASEDIR, 'meta/remote-metadata.xml')], },
+    'metadata': {'local': [os.path.join(BASE_DIR, 'meta/remote-metadata.xml')], },
     # set to 1 to output debugging information
     'debug': 1,
     # certificate
-    'key_file': os.path.join(BASEDIR, 'saml/key'),
-    'cert_file': os.path.join(BASEDIR, 'saml/cert'),
+    'key_file': os.path.join(BASE_DIR, 'saml/key'),
+    'cert_file': os.path.join(BASE_DIR, 'saml/cert'),
 }
 
 SAML_CREATE_UNKNOWN_USER = True
