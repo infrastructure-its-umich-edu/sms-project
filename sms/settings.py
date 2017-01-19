@@ -17,7 +17,7 @@ import saml2
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SAML2_URL_PATH = '/accounts/'
-SAML2_URL_BASE = 'http://localhost:2082/accounts/'
+SAML2_URL_BASE = 'https://sms-portal-test.openshift.dsc.umich.edu/accounts/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
