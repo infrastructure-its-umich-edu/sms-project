@@ -14,9 +14,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth.views import login, logout
 
 urlpatterns = [
     url(r'^sms/', include('sendsms.urls', namespace="sendsms")),
     url(r'^bootstrap3/', include('demo.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/login/$', include('djangosaml2.urls')),
+    url(r'^accounts/logout/$', logout),
 ]

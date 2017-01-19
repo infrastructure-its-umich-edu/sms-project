@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import saml2
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+SAML2_URL_PATH = '/accounts/'
+SAML2_URL_BASE = 'http://localhost:2082/accounts/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -27,7 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -37,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djangosaml2',
     'bootstrap3',
     'demo',
     'sendsms',
@@ -73,6 +76,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sms.wsgi.application'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
@@ -84,6 +93,67 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'djangosaml2.backends.Saml2Backend',
+)
+LOGIN_URL = '%slogin/' % SAML2_URL_PATH
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SAML_CONFIG = {
+    'xmlsec_binary': '/usr/bin/xmlsec1',
+    'entityid': '%smetadata/' % SAML2_URL_BASE,
+    # directory with attribute mapping
+    #'attribute_map_dir': path.join(BASEDIR, 'attribute-maps'),
+    'name': 'SMS Portal',
+    # this block states what services we provide
+    'service': {
+        # we are just a lonely SP
+        'sp': {
+            'name': 'SMS Portal',
+            'name_id_format': ('urn:oasis:names:tc:SAML:2.0:'
+                               'nameid-format:transient'),
+                         'authn_requests_signed': 'true',
+                         'allow_unsolicited': True,
+                         'endpoints': {# url and binding to the assetion consumer service view
+                                       # do not change the binding or service name
+                                       'assertion_consumer_service': [('%sacs/' % SAML2_URL_BASE,
+                                                                       saml2.BINDING_HTTP_POST),
+                                                                      ],
+                                       # url and binding to the single logout service view+
+                                       # do not change the binding or service name
+                                       'single_logout_service': [('%sls/' % SAML2_URL_BASE,
+                                                                  saml2.BINDING_HTTP_REDIRECT),
+                                                                 ('%sls/post' % SAML2_URL_BASE,
+                                                                  saml2.BINDING_HTTP_POST),
+                                                                 ],
+                                       },
+
+                         # attributes that this project need to identify a user
+                         'required_attributes': ['uid'],
+
+                         # attributes that may be useful to have but not
+                         # required
+                         'optional_attributes': ['eduPersonAffiliation'],
+                         },
+                  },
+    # where the remote metadata is stored
+    'metadata': {'local': [path.join(BASEDIR, 'meta/remote-metadata.xml')], },
+    # set to 1 to output debugging information
+    'debug': 1,
+    # certificate
+    'key_file': path.join(BASEDIR, 'saml/key'),
+    'cert_file': path.join(BASEDIR, 'saml/cert'),
+}
+
+SAML_CREATE_UNKNOWN_USER = True
+
+SAML_ATTRIBUTE_MAPPING = {
+    'uid': ('username', ),
+    'mail': ('email', ),
+    'givenName': ('first_name', ),
+    'sn': ('last_name', ),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
