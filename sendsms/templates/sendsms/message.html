@@ -1,5 +1,19 @@
-<form action="/sms/send/" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit" />
-</form>
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block content %}
+{% bootstrap_form_errors form %}
+    <form role="form" action="/sms/send/" method="post">
+       {% csrf_token %}
+       {% bootstrap_form form %}
+       <input type="submit" value="Submit" />
+    </form>
+
+{% endblock %}
