@@ -10,11 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+# Build paths inside the project like this: Path(BASE_DIR, ...)
 import saml2
+from decouple import config
+from unipath import Path
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = Path(__file__).parent
 
 SAML2_URL_PATH = '/accounts/'
 SAML2_URL_BASE = 'https://sms-portal-test.openshift.dsc.umich.edu/accounts/'
@@ -23,10 +24,10 @@ SAML2_URL_BASE = 'https://sms-portal-test.openshift.dsc.umich.edu/accounts/'
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kdud!-^0dwfs8e8_2n8*x+r%y(30w%j=6qs3-$&ju+#sz^v_90'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -89,7 +90,7 @@ CACHES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': Path(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -104,7 +105,7 @@ SAML_CONFIG = {
     'xmlsec_binary': '/usr/bin/xmlsec1',
     'entityid': '%smetadata/' % SAML2_URL_BASE,
     # directory with attribute mapping
-    #'attribute_map_dir': os.path.join(BASE_DIR, 'attribute-maps'),
+    #'attribute_map_dir': Path(BASE_DIR, 'attribute-maps'),
     'name': 'SMS Portal',
     # this block states what services we provide
     'service': {
@@ -138,12 +139,12 @@ SAML_CONFIG = {
                          },
                   },
     # where the remote metadata is stored
-    'metadata': {'local': [os.path.join(BASE_DIR, 'meta/remote-metadata.xml')], },
+    'metadata': {'local': [Path(BASE_DIR, 'meta/remote-metadata.xml')], },
     # set to 1 to output debugging information
     'debug': 1,
     # certificate
-    'key_file': os.path.join(BASE_DIR, 'saml/key'),
-    'cert_file': os.path.join(BASE_DIR, 'saml/cert'),
+    'key_file': Path(BASE_DIR, 'saml/key'),
+    'cert_file': Path(BASE_DIR, 'saml/cert'),
 }
 
 SAML_CREATE_UNKNOWN_USER = True
