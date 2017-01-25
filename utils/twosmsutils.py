@@ -10,4 +10,4 @@ class twosmsMessage:
     messageClient = mc.bind('Message', 'MessageSoap12')
 
     def send(self, to, message):
-        return messageClient.Send( sms_user, sms_pass, '2', '1', to, message, 'NULL', 'umich2smstest', 'testing', 'NULL', 'sent', 'atbal', 'opbal', 'result', 'code' )
+        return self.messageClient.Send( self.sms_user, self.sms_pass, '2', '1', to, message, 'NULL', 'umich2smstest', 'testing', 'NULL', 'sent', 'atbal', 'opbal', 'result', 'code' )
