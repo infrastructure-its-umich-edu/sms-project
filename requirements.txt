@@ -17,6 +17,7 @@ future==0.16.0
 idna==2.1
 ipaddress==1.0.17
 isodate==0.5.4
+kitchen==1.2.4
 lxml==3.6.4
 pyOpenSSL==16.2.0
 pyasn1==0.1.9
