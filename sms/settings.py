@@ -99,7 +99,7 @@ AUTHENTICATION_BACKENDS = (
     'djangosaml2.backends.Saml2Backend',
 )
 LOGIN_URL = '%slogin/' % SAML2_URL_PATH
-LOGIN_REDIRECT_URL = 'sms/send'
+LOGIN_REDIRECT_URL = '/sms/send'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 SAML_CONFIG = {
