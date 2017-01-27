@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404,render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect
 from kitchen.text.converters import to_bytes
 
 from .forms import MessageForm
@@ -23,7 +23,7 @@ def get_message(request):
             result = messageclient.send( to_bytes(clean_number, encoding='ascii' ),
                                          to_bytes(clean_message, encoding='ascii' ))
             logger.debug(result)
-            return HttpResponseRedirect('/sms/send')
+            return HttpResponse("Result: %s" % result )
 
     else:
         form = MessageForm()
