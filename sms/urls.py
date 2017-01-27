@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^bootstrap3/', include('demo.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('djangosaml2.urls')),
+    url(r'^accounts/test/', 'djangosaml2.views.echo_attributes'),
 ]
