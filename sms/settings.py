@@ -179,3 +179,19 @@ STATIC_URL = '/static/'
 # value for SMS provider
 SMS_USER = config('SMS_USER')
 SMS_PASS = config('SMS_PASS')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+       'console': {
+           'class': 'logging.StreamHandler',
+       },
+     },
+     'loggers': {
+        'django': {
+           'handlers': ['console'],
+           'level': config('DJANGO_LOG_LEVEL', default='INFO'),
+        },
+     },
+}
