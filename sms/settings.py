@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: Path(BASE_DIR, ...)
 import saml2
+import ldap
 from decouple import config
 from unipath import Path
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 
 BASE_DIR = Path(__file__).parent
 
@@ -29,7 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -97,10 +99,21 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'djangosaml2.backends.Saml2Backend',
+    'django_auth_ldap.backend.LDAPBackend',
 )
 LOGIN_URL = '%slogin/' % SAML2_URL_PATH
 LOGIN_REDIRECT_URL = '/sms/send'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+AUTH_LDAP_SERVER_URI = config('AUTH_LDAP_SERVER_URI', default='')
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(config('AUTH_LDAP_GROUP_SEARCH', default=''),
+                                    ldap.SCOPE_SUBTREE,
+                                    config('AUTH_LDAP_GROUP_OBJECTCLASS',
+                                           default='(objectClass=groupOfNames)')
+                                    )
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
+AUTH_LDAP_REQUIRE_GROUP = config('AUTH_LDAP_REQUIRE_GROUP', default='')
+AUTH_LDAP_AUTHORIZE_ALL_USERS = config('AUTH_LDAP_AUTHORIZE_ALL_USERS', default=True, cast=bool)
 
 SAML_CONFIG = {
     'xmlsec_binary': '/usr/bin/xmlsec1',
