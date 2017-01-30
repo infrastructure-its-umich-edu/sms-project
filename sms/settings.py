@@ -203,8 +203,12 @@ LOGGING = {
      },
      'loggers': {
         'django': {
-           'handlers': ['console'],
-           'level': config('DJANGO_LOG_LEVEL', default='INFO'),
+            'handlers': ['console'],
+            'level': config('DJANGO_LOG_LEVEL', default='INFO'),
+        },
+        'django_auth_ldap': {
+            'handlers': ['console'],
+            'level': config('DJANGO_AUTH_LDAP_LOG_LEVEL', default='INFO'),
         },
      },
 }
