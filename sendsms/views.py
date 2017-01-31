@@ -1,6 +1,8 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import get_object_or_404,render
 from django.http import HttpResponse,HttpResponseRedirect
+from django.contrib.auth.models import User, Group
+from django.conf import settings
 from kitchen.text.converters import to_bytes
 
 from .forms import MessageForm
@@ -10,8 +12,15 @@ import logging
 
 logger = logging.getLogger(__name__)
 messageclient = twosmsutils.twosmsMessage()
+allow_group = settings.ALLOW_GROUP
+
+def in_allow_group(user):
+    """Use with a ``user_passes_test`` decorator to restrict access to
+        authenticated users who are in allowed group."""
+    return user.groups.filter(name=allow_group).exists()
 
 @login_required
+@user_passes_test(in_allow_group, login_url='/accounts/test/')
 def get_message(request):
     if request.method == 'POST':
         form = MessageForm(request.POST)
