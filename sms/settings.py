@@ -97,8 +97,8 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'django_auth_ldap.backend.LDAPBackend',
     'djangosaml2.backends.Saml2Backend',
+    'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '%slogin/' % SAML2_URL_PATH
@@ -112,9 +112,12 @@ AUTH_LDAP_GROUP_SEARCH = LDAPSearch(config('AUTH_LDAP_GROUP_SEARCH', default='')
                                     config('AUTH_LDAP_GROUP_OBJECTCLASS',
                                            default='(objectClass=groupOfNames)')
                                     )
-AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
-AUTH_LDAP_REQUIRE_GROUP = config('AUTH_LDAP_REQUIRE_GROUP', default='')
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
+#AUTH_LDAP_REQUIRE_GROUP = config('AUTH_LDAP_REQUIRE_GROUP', default='')
+AUTH_LDAP_FIND_GROUP_PERMS = config('AUTH_LDAP_FIND_GROUP_PERMS', default=True, cast=bool)
 AUTH_LDAP_AUTHORIZE_ALL_USERS = config('AUTH_LDAP_AUTHORIZE_ALL_USERS', default=True, cast=bool)
+
+ALLOW_GROUP = config('ALLOW_GROUP', default='allowed group')
 
 SAML_CONFIG = {
     'xmlsec_binary': '/usr/bin/xmlsec1',
