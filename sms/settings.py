@@ -97,8 +97,8 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'djangosaml2.backends.Saml2Backend',
     'django_auth_ldap.backend.LDAPBackend',
+    'djangosaml2.backends.Saml2Backend',
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '%slogin/' % SAML2_URL_PATH
