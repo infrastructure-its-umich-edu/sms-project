@@ -97,8 +97,8 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'djangosaml2.backends.Saml2Backend',
     'django_auth_ldap.backend.LDAPBackend',
+    'djangosaml2.backends.Saml2Backend',
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '%slogin/' % SAML2_URL_PATH
@@ -106,7 +106,7 @@ LOGIN_REDIRECT_URL = '/sms/send'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 AUTH_LDAP_SERVER_URI = config('AUTH_LDAP_SERVER_URI', default='')
-AUTH_LDAP_USER_DN_TEMPLATE = config('AUTH_LDAP_USER_DN_TEMPLATE', default='')
+#AUTH_LDAP_USER_DN_TEMPLATE = config('AUTH_LDAP_USER_DN_TEMPLATE', default='')
 AUTH_LDAP_GROUP_SEARCH = LDAPSearch(config('AUTH_LDAP_GROUP_SEARCH', default=''),
                                     ldap.SCOPE_SUBTREE,
                                     config('AUTH_LDAP_GROUP_OBJECTCLASS',
@@ -202,6 +202,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
        'console': {
+           'level': DEBUG,
            'class': 'logging.StreamHandler',
        },
      },
@@ -209,10 +210,12 @@ LOGGING = {
         'django': {
             'handlers': ['console'],
             'level': config('DJANGO_LOG_LEVEL', default='INFO'),
+            'propagate': True,
         },
         'django_auth_ldap': {
             'handlers': ['console'],
-            'level': config('DJANGO_AUTH_LDAP_LOG_LEVEL', default='INFO'),
+            'level': config('DJANGO_AUTH_LDAP_LOG_LEVEL', default='DEBUG'),
+            'propagate': True,
         },
      },
 }
