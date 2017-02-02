@@ -97,8 +97,8 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'django_auth_ldap.backend.LDAPBackend',
     'djangosaml2.backends.Saml2Backend',
+    'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '%slogin/' % SAML2_URL_PATH
@@ -106,10 +106,10 @@ LOGIN_REDIRECT_URL = '/sms/send'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 AUTH_LDAP_SERVER_URI = config('AUTH_LDAP_SERVER_URI', default='')
-#AUTH_LDAP_USER_DN_TEMPLATE = config('AUTH_LDAP_USER_DN_TEMPLATE', default='')
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch(config('AUTH_LDAP_GROUP_SEARCH', default=''),
+AUTH_LDAP_USER_DN_TEMPLATE = config('AUTH_LDAP_USER_DN_TEMPLATE', default='')
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(config('AUTH_LDAP_GROUP_BASE', default=''),
                                     ldap.SCOPE_SUBTREE,
-                                    config('AUTH_LDAP_GROUP_OBJECTCLASS',
+                                    config('AUTH_LDAP_GROUP_FILTER',
                                            default='(objectClass=groupOfNames)')
                                     )
 AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
