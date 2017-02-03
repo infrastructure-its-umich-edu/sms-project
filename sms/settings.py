@@ -14,8 +14,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import saml2
 import ldap
 from decouple import config
-from unipath import Path
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+from dj_database_url import parse as db_url
+from unipath import Path
 
 BASE_DIR = Path(__file__).parent
 
@@ -90,10 +91,11 @@ CACHES = {
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': Path(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': config(
+        'DATABASE_URL',
+         default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
+         cast=db_url
+    )
 }
 
 AUTHENTICATION_BACKENDS = (
