@@ -211,12 +211,17 @@ LOGGING = {
      'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': config('DJANGO_LOG_LEVEL', default='DEBUG'),
+            'level': config('DJANGO_LOG_LEVEL', default='INFO'),
             'propagate': True,
         },
         'django_auth_ldap': {
             'handlers': ['console'],
             'level': config('DJANGO_AUTH_LDAP_LOG_LEVEL', default='DEBUG'),
+            'propagate': True,
+        },
+        'sms': {
+            'handlers': ['console'],
+            'level': config('SMS_LOG_LEVEL', default='INFO'),
             'propagate': True,
         },
      },
