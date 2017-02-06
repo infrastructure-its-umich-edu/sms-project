@@ -21,7 +21,7 @@ from unipath import Path
 BASE_DIR = Path(__file__).parent
 
 SAML2_URL_PATH = '/accounts/'
-SAML2_URL_BASE = 'https://sms-portal-test.openshift.dsc.umich.edu/accounts/'
+SAML2_URL_BASE = config('SAML2_URL_BASE', default='http://localhost:8000/accounts/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
