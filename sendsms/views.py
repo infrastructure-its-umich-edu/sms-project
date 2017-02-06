@@ -18,6 +18,7 @@ allow_group = settings.ALLOW_GROUP
 def in_allow_group(user):
     if user.is_authenticated():
         LDAPBackend().get_all_permissions(user)
+        logger.debug(user.groups.values_list('name',flat=True))
     """Use with a ``user_passes_test`` decorator to restrict access to
         authenticated users who are in allowed group."""
     return user.groups.filter(name=allow_group).exists()
