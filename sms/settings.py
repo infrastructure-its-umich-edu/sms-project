@@ -93,8 +93,8 @@ CACHES = {
 DATABASES = {
     'default': config(
         'DATABASE_URL',
-         default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
-         cast=db_url
+        default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
+        cast=db_url
     )
 }
 
@@ -211,7 +211,7 @@ LOGGING = {
      'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': config('DJANGO_LOG_LEVEL', default='INFO'),
+            'level': config('DJANGO_LOG_LEVEL', default='DEBUG'),
             'propagate': True,
         },
         'django_auth_ldap': {
