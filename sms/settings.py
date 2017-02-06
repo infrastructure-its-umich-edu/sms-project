@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: Path(BASE_DIR, ...)
 import saml2
 import ldap
+import sys
 from decouple import config
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 from dj_database_url import parse as db_url
@@ -206,6 +207,7 @@ LOGGING = {
        'console': {
            'level': DEBUG,
            'class': 'logging.StreamHandler',
+           'stream': sys.stdout,
        },
      },
      'loggers': {
