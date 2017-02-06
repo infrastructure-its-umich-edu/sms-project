@@ -11,7 +11,7 @@ from utils import twosmsutils
 
 import logging
 
-logger = logging.getLogger(sms.views)
+logger = logging.getLogger('sms.views')
 messageclient = twosmsutils.twosmsMessage()
 allow_group = settings.ALLOW_GROUP
 
