@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404,render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.models import User, Group
@@ -11,21 +12,21 @@ from utils import twosmsutils
 
 import logging
 
-logger = logging.getLogger('sms')
+logger = logging.getLogger('sms.views')
 messageclient = twosmsutils.twosmsMessage()
-allow_group = settings.ALLOW_GROUP
 
 def in_allow_group(user):
-    if user.is_authenticated():
-        LDAPBackend().get_all_permissions(user)
-        logger.debug('in_allow_group %s is authenticated' % user)
-        logger.debug(user.groups.values_list('name',flat=True))
     """Use with a ``user_passes_test`` decorator to restrict access to
         authenticated users who are in allowed group."""
-    return user.groups.filter(name=allow_group).exists()
+    if user.is_authenticated():
+        logger.debug('in_allow_group %s is authenticated' % user)
+        LDAPBackend().populate_user(user.username)
+        if not user.is_staff:
+            raise PermissionDenied
+    return True
 
 @login_required
-@user_passes_test(in_allow_group, login_url='/accounts/test/')
+@user_passes_test(in_allow_group)
 def get_message(request):
     if request.method == 'POST':
         form = MessageForm(request.POST)

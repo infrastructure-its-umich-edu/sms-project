@@ -119,8 +119,9 @@ AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
 #AUTH_LDAP_REQUIRE_GROUP = config('AUTH_LDAP_REQUIRE_GROUP', default='')
 AUTH_LDAP_FIND_GROUP_PERMS = config('AUTH_LDAP_FIND_GROUP_PERMS', default=True, cast=bool)
 AUTH_LDAP_AUTHORIZE_ALL_USERS = config('AUTH_LDAP_AUTHORIZE_ALL_USERS', default=True, cast=bool)
-
-ALLOW_GROUP = config('ALLOW_GROUP', default='allowed group')
+AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+    "is_staff": config('ALLOW_GROUP')
+}
 
 SAML_CONFIG = {
     'xmlsec_binary': '/usr/bin/xmlsec1',
