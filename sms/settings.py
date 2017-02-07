@@ -198,6 +198,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = Path(BASE_DIR, 'static/')
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # value for SMS provider
 SMS_USER = config('SMS_USER')
 SMS_PASS = config('SMS_PASS')
