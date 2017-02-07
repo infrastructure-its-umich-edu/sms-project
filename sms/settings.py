@@ -19,7 +19,7 @@ from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 from dj_database_url import parse as db_url
 from unipath import Path
 
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).parent.parent
 
 SAML2_URL_PATH = '/accounts/'
 SAML2_URL_BASE = config('SAML2_URL_BASE', default='http://localhost:8000/accounts/')
@@ -196,7 +196,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = Path(BASE_DIR, 'static/')
+STATIC_ROOT = Path(BASE_DIR, '/static/')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
