@@ -120,7 +120,7 @@ AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
 AUTH_LDAP_FIND_GROUP_PERMS = config('AUTH_LDAP_FIND_GROUP_PERMS', default=True, cast=bool)
 AUTH_LDAP_AUTHORIZE_ALL_USERS = config('AUTH_LDAP_AUTHORIZE_ALL_USERS', default=True, cast=bool)
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    "is_staff": config('ALLOW_GROUP')
+    "is_staff": config('ALLOW_GROUP', default='')
 }
 
 SAML_CONFIG = {
@@ -201,8 +201,8 @@ STATIC_ROOT = Path(BASE_DIR, '/static/')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # value for SMS provider
-SMS_USER = config('SMS_USER')
-SMS_PASS = config('SMS_PASS')
+SMS_USER = config('SMS_USER', default='')
+SMS_PASS = config('SMS_PASS', default='')
 
 LOGGING = {
     'version': 1,
