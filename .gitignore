@@ -1,3 +1,6 @@
+meta/
+saml/
+
 # Django
 db.sqlite3
 staticfiles/
