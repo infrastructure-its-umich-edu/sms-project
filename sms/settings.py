@@ -201,6 +201,10 @@ STATIC_ROOT = Path(BASE_DIR, 'static')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+BOOTSTRAP3 = {
+    'include_jquery': True,
+}
+
 # value for SMS provider
 SMS_USER = config('SMS_USER', default='')
 SMS_PASS = config('SMS_PASS', default='')
