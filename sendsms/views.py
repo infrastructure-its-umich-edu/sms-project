@@ -37,7 +37,7 @@ def get_message(request):
             # then redirect to acknowledgement url
             result = messageclient.send( to_bytes(clean_number, encoding='ascii' ),
                                          to_bytes(clean_message, encoding='ascii' ))
-            logger.info(result)
+            logger.info(result.ResultText)
             return HttpResponse("Result: %s" % result )
 
     else:
