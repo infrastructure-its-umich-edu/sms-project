@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404,render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.models import User, Group
 from django.conf import settings
+from django.contrib import messages
 from django_auth_ldap.backend import LDAPBackend
 from kitchen.text.converters import to_bytes
 
@@ -38,7 +39,10 @@ def get_message(request):
             result = messageclient.send( to_bytes(clean_number, encoding='ascii' ),
                                          to_bytes(clean_message, encoding='ascii' ))
             logger.info(result.ResultText)
-            return HttpResponse("Result: %s" % result )
+            if int(result.Code) == 0:
+                messages.success(request, result.ResultText)
+            else:
+                messages.error(request, result.ResultText)
 
     else:
         form = MessageForm()
