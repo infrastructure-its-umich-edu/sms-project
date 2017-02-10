@@ -38,10 +38,12 @@ def get_message(request):
             # then redirect to acknowledgement url
             result = messageclient.send( to_bytes(clean_number, encoding='ascii' ),
                                          to_bytes(clean_message, encoding='ascii' ))
-            logger.info(result.ResultText)
             if int(result.Code) == 0:
+                logger.info(result.ResultText)
                 messages.success(request, result.ResultText)
+                return HttpResponseRedirect('')
             else:
+                logger.error(result.SendResult)
                 messages.error(request, result.ResultText)
 
     else:
