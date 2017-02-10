@@ -21,6 +21,7 @@ from unipath import Path
 
 BASE_DIR = Path(__file__).parent.parent
 
+SAML2_ENTITYID = config('SAML2_ENTITYID', default='https://sms-portal-dev.localdomain/accounts/metadata')
 SAML2_URL_PATH = '/accounts/'
 SAML2_URL_BASE = config('SAML2_URL_BASE', default='http://localhost:8000/accounts/')
 
@@ -125,7 +126,7 @@ AUTH_LDAP_USER_FLAGS_BY_GROUP = {
 
 SAML_CONFIG = {
     'xmlsec_binary': '/usr/bin/xmlsec1',
-    'entityid': '%smetadata/' % SAML2_URL_BASE,
+    'entityid': '%s' % SAML2_ENTITYID,
     # directory with attribute mapping
     #'attribute_map_dir': Path(BASE_DIR, 'attribute-maps'),
     'name': 'SMS Portal',
