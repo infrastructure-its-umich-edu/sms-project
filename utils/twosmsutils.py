@@ -1,13 +1,16 @@
 from django.conf import settings
 from zeep import Client
 from zeep import xsd
+from zeep.cache import InMemoryCache
+from zeep.transports import Transport
 import uuid
 
 class twosmsMessage:
     """A utility class for connecting with sms vendor 2sms"""
     sms_user = settings.SMS_USER
     sms_pass = settings.SMS_PASS
-    mc = Client('https://smsportal.2sms.com/WebServices/2.2/Simple/Message.asmx?WSDL')
+    mc = Client('https://smsportal.2sms.com/WebServices/2.2/Simple/Message.asmx?WSDL',
+               transport=Transport(cache=InMemoryCache()))
     messageClient = mc.bind('Message', 'MessageSoap12')
 
     def send(self, to, message):
