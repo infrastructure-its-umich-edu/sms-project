@@ -5,6 +5,12 @@ from zeep.cache import InMemoryCache
 from zeep.transports import Transport
 import uuid
 
+def msgTypeList(numbs):
+    list = '2'
+    for num in range(numbs):
+        list = list + ';2'
+    return list
+
 class twosmsMessage:
     """A utility class for connecting with sms vendor 2sms"""
     sms_user = settings.SMS_USER
@@ -15,4 +21,19 @@ class twosmsMessage:
 
     def send(self, to, message):
         msgid = str(uuid.uuid1())
-        return self.messageClient.Send( self.sms_user, self.sms_pass, '2', '1', to, message, 'NULL', 'header', msgid, 'NULL', '1', '1', '1', 'result', 'code' )
+        msgtypes = msgTypeList(to.count(';'))
+        return self.messageClient.Send(self.sms_user,
+                                       self.sms_pass,
+                                       msgtypes,
+                                       msgtypes.replace('2','1'),
+                                       to,
+                                       message,
+                                       'NULL',
+                                       'header',
+                                       msgid,
+                                       'NULL',
+                                       '1',
+                                       '1',
+                                       '1',
+                                       'result',
+                                       'code')
