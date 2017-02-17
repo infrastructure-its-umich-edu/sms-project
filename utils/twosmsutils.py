@@ -1,4 +1,6 @@
 from django.conf import settings
+from kitchen.text.converters import to_bytes
+from sendsms.models import SMSMessage
 from zeep import Client
 from zeep import xsd
 from zeep.cache import InMemoryCache
@@ -19,18 +21,18 @@ class twosmsMessage:
                transport=Transport(cache=InMemoryCache()))
     messageClient = mc.bind('Message', 'MessageSoap12')
 
-    def send(self, to, message):
-        msgid = str(uuid.uuid1())
-        msgtypes = msgTypeList(to.count(';'))
+    def send(self, smsmessage):
+        smsmessage.msgid = uuid.uuid1()
+        msgtypes = msgTypeList(smsmessage.recipients.count(';'))
         return self.messageClient.Send(self.sms_user,
                                        self.sms_pass,
                                        msgtypes,
                                        msgtypes.replace('2','1'),
-                                       to,
-                                       message,
+                                       to_bytes(smsmessage.recipients, encoding='ascii'),
+                                       to_bytes(smsmessage.message, encoding='ascii'),
                                        'NULL',
                                        'header',
-                                       msgid,
+                                       str(smsmessage.msgid),
                                        'NULL',
                                        '1',
                                        '1',

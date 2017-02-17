@@ -5,10 +5,10 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.contrib import messages
+from django.utils import timezone
 from django_auth_ldap.backend import LDAPBackend
-from kitchen.text.converters import to_bytes
 
-from .forms import MessageForm
+from .models import SMSMessageForm
 from utils import twosmsutils
 
 import logging
@@ -30,15 +30,14 @@ def in_allow_group(user):
 @user_passes_test(in_allow_group)
 def get_message(request):
     if request.method == 'POST':
-        form = MessageForm(request.POST)
+        form = SMSMessageForm(request.POST)
         if form.is_valid():
-            clean_number = form.cleaned_data.get('number')
-            clean_message = form.cleaned_data.get('message')
-            # do something like send the message
-            # then redirect to acknowledgement url
-            result = messageclient.send( to_bytes(clean_number, encoding='ascii' ),
-                                         to_bytes(clean_message, encoding='ascii' ))
+            new_message = form.save(commit=False)
+            new_message.sender = request.user
+            new_message.submit_time = timezone.now()
+            result = messageclient.send( new_message )
             if int(result.Code) == 0:
+                new_message.save()
                 logger.info(result.ResultText)
                 messages.success(request, result.ResultText)
                 return HttpResponseRedirect('')
@@ -47,6 +46,6 @@ def get_message(request):
                 messages.error(request, result.ResultText)
 
     else:
-        form = MessageForm()
+        form = SMSMessageForm()
 
     return render(request, 'sendsms/message.html', {'form': form})
