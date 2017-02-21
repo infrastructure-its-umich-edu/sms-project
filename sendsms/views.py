@@ -20,8 +20,9 @@ def in_allow_group(user):
     """Use with a ``user_passes_test`` decorator to restrict access to
         authenticated users who are in allowed group."""
     if user.is_authenticated():
-        logger.debug('in_allow_group %s is authenticated' % user)
         LDAPBackend().populate_user(user.username)
+        user.refresh_from_db()
+        logger.info('%s authenticated and is_staff %s' % (user, user.is_staff))
         if not user.is_staff:
             raise PermissionDenied
     return True
