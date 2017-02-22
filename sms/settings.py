@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'djangosaml2',
     'bootstrap3',
-    'demo',
     'sendsms',
 )
 
