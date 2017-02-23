@@ -50,5 +50,6 @@ def get_message(request):
     else:
         form = SMSMessageForm()
         form.fields['message'].widget.attrs['maxlength'] = 145
+        form.fields['recipients'].widget.attrs['rows'] = 1
 
     return render(request, 'sendsms/message.html', {'form': form})
