@@ -34,6 +34,7 @@ def get_message(request):
         form = SMSMessageForm(request.POST)
         if form.is_valid():
             new_message = form.save(commit=False)
+            new_message.message = new_message.message + " -" + request.user.username
             new_message.sender = request.user
             new_message.submit_time = timezone.now()
             result = messageclient.send( new_message )
@@ -48,5 +49,6 @@ def get_message(request):
 
     else:
         form = SMSMessageForm()
+        form.fields['message'].widget.attrs['maxlength'] = 145
 
     return render(request, 'sendsms/message.html', {'form': form})
