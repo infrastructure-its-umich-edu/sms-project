@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'djangosaml2',
     'bootstrap3',
-    'demo',
     'sendsms',
 )
 
@@ -80,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sms.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 CACHES = {
     'default': {
@@ -112,6 +111,7 @@ SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool
 
 AUTH_LDAP_SERVER_URI = config('AUTH_LDAP_SERVER_URI', default='')
 AUTH_LDAP_USER_DN_TEMPLATE = config('AUTH_LDAP_USER_DN_TEMPLATE', default='')
+AUTH_LDAP_CACHE_GROUPS = True
 AUTH_LDAP_GROUP_SEARCH = LDAPSearch(config('AUTH_LDAP_GROUP_BASE', default=''),
                                     ldap.SCOPE_SUBTREE,
                                     config('AUTH_LDAP_GROUP_FILTER',

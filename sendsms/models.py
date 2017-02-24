@@ -10,7 +10,7 @@ class SMSMessage(models.Model):
                                  help_text='Multiple numbers should be seperated by semicolon(;)')
     msgid = models.UUIDField(editable=False)
     submit_time = models.DateTimeField(auto_now_add=True, editable=False)
-    message = models.CharField(verbose_name='Message', max_length=145)
+    message = models.CharField(verbose_name='Message', max_length=160)
 
 class SMSMessageForm(ModelForm):
     class Meta:

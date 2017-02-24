@@ -14,6 +14,19 @@
 
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static "sendsms/js/jquery.charactercounter.js" %}"></script>
+<script>
+$(function(){
+    $("#id_message").characterCounter({
+	counterCssClass:'help-block',
+	renderTotal: true,
+	counterFormat: 'Characters: %1',
+    });
+});
+</script>
+
 <body>
     <div class="container">
     <h1>U-M Text Alerts</h1>
