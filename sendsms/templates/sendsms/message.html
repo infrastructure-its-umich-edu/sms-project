@@ -16,13 +16,12 @@
 {% bootstrap_messages %}
 
 {% load staticfiles %}
-<script type="text/javascript" src="{% static "sendsms/js/jquery.charactercounter.js" %}"></script>
+<script type="text/javascript" src="{% static "sendsms/js/bootstrap-maxlength.js" %}"></script>
 <script>
 $(function(){
-    $("#id_message").characterCounter({
-	counterCssClass:'help-block',
-	renderTotal: true,
-	counterFormat: 'Characters: %1',
+    $('input#id_message').maxlength({
+	alwaysShow: true,
+	placement: 'bottom',
     });
 });
 </script>
