@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/sms/send')),
     url(r'^sms/', include('sendsms.urls', namespace="sendsms")),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^health/$', include('health_check.urls')),
     url(r'^accounts/', include('djangosaml2.urls')),
     url(r'^accounts/test/', 'djangosaml2.views.echo_attributes'),
 ]

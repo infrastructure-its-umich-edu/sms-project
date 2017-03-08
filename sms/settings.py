@@ -48,6 +48,10 @@ INSTALLED_APPS = (
     'djangosaml2',
     'bootstrap3',
     'sendsms',
+    'health_check',
+    'health_check.db',
+    'health_check.cache',
+    'health_check.storage',
 )
 
 MIDDLEWARE_CLASSES = (
