@@ -14,8 +14,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth.views import login, logout
 from django.views.generic import RedirectView
+import djangosaml2
 
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/sms/send')),
@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^health/$', include('health_check.urls')),
     url(r'^accounts/', include('djangosaml2.urls')),
-    url(r'^accounts/test/', 'djangosaml2.views.echo_attributes'),
+    url(r'^accounts/test/', djangosaml2.views.echo_attributes),
 ]
