@@ -42,7 +42,7 @@ python-ldap==3.4.0
 python-memcached==1.58
 pytz==2018.3
 repoze.who==2.3
-requests==2.20.0
+requests==2.31.0
 requests-toolbelt==0.8.0
 six==1.11.0
 sqlparse==0.4.4
